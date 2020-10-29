@@ -2,7 +2,7 @@
 
 Mutating admission controller that adds a label to a pod on creation.
 
-## Quick star
+## Quick start
 
 Execute ./deploy.sh to create resources.
 
