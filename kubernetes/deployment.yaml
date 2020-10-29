@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-mutation-deployment
+  namespace: webhooks
+  labels:
+    name: pod-mutation-webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+        type: webhook 
+        name: pod-mutation-webhook
+  template:
+    metadata:
+      name: pod-mutation-webhook 
+      labels:
+        type: webhook 
+        name: pod-mutation-webhook
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1234
+      containers:
+        - name: webhook
+          image: localhost:5000/webhook-mutation
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8443
+              name: webhook-api
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: 300m
+            requests:
+              memory: 50Mi
+              cpu: 300m
+          volumeMounts:
+            - name: webhook-certs
+              mountPath: /etc/webhook/certs
+              readOnly: true
+          securityContext:
+            readOnlyRootFilesystem: true
+      volumes:
+        - name: webhook-certs
+          secret:
+            secretName: pod-mutation-webhook-certs
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pod-mutation-service
+  namespace: webhooks
+  labels:
+    name: pod-mutation-webhook
+spec:
+  ports:
+    - port: 443
+      targetPort: webhook-api
+  selector:
+    type: webhook 
+    name: pod-mutation-webhook
+
