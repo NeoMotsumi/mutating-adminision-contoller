@@ -7,3 +7,5 @@ Mutating admission controller that adds a label to a pod on creation.
 Execute ./deploy.sh to create resources.
 
 ## Project Layout(TODO)
+
+![](https://j.gifs.com/jZD2Pv.gif)
