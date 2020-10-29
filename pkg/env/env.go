@@ -20,7 +20,7 @@ type Config struct {
 func LoadApplicationConfig() Config {
 	viper.SetDefault("LOG_LEVEL", "debug")
 	viper.SetDefault("LOG_FORMAT", "text")
-	viper.SetDefault("ADDRESS", ":9000")
+	viper.SetDefault("ADDRESS", ":8443")
 	viper.SetDefault("GRACEFUL_TIMEOUT", 20*time.Second)
 
 	viper.ReadInConfig()
